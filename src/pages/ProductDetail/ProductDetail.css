@@ -1,0 +1,22 @@
+.product-detail-container {
+  box-shadow: 0 4px 8px #ccc;
+  height: 70vh;
+}
+
+.image-container {
+  margin: 0 auto;
+}
+
+.image {
+  border-radius: 40px;
+  width: 70%;
+  margin-left: 40px;
+  margin-top: 30px;
+  box-shadow: 0 4px 8px #ccc;
+}
+
+@media screen and (max-width: 960px) {
+  .product-detail-container {
+    height: auto;
+  }
+}

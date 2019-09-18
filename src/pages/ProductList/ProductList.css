@@ -1,0 +1,11 @@
+.card {
+  cursor: pointer;
+  box-shadow: 0 2px 4px #ccc;
+}
+.list-container {
+  margin-top: 20px;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px #ccc;
+}
