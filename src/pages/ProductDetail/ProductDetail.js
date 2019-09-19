@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { getProductsById } from '../../actions/productAction';
+import { getProductById } from '../../actions/productAction';
 import "./ProductDetail.css";
 
 
 class ProductDetail extends Component {
     componentDidMount() {
-
+     this.props.getProductById();
     }
 
   render() {
@@ -55,4 +55,4 @@ class ProductDetail extends Component {
 
 const mapStateToProps = ({ product }) => ({ product})
 
-export default connect(mapStateToProps, {getProductsById } )(ProductDetail);
+export default connect(mapStateToProps, {getProductById } )(ProductDetail);
