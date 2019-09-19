@@ -1,5 +1,6 @@
-import React from "react";
-
+import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { getProductById } from '../../actions/productAction';
 import "./ProductDetail.css";
 
 const data =
@@ -9,8 +10,10 @@ const productDetail = ({ location }) => {
 
   console.log("data here", product);
 
-  return (
-    <div className="container product-detail-container">
+    const { id } = this.props.match.params;
+
+    return (
+      <div className="container product-detail-container">
       <div className="row">
         <div className="col-12 col-md-6 image-container">
           <img
@@ -66,7 +69,10 @@ const productDetail = ({ location }) => {
         </div>
       </div>
     </div>
-  );
-};
+    )
+  }
+}
 
-export default productDetail;
+const mapStateToProps = ({ product }) => ({ product})
+
+export default connect(mapStateToProps, {getProductById } )(ProductDetail);

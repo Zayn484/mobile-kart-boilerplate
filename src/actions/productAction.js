@@ -26,3 +26,15 @@ export const getProductsSuccess = createAction(GET_PRODUCTS_SUCCESS);
 
 export const GET_PRODUCTS_FAILURE = 'GET_PRODUCTS_FAILURE';
 export const getProductsFailure = createAction(GET_PRODUCTS_FAILURE);
+
+export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID';
+export const getProductById = createAction(GET_PRODUCT_BY_ID);
+
+export const GET_PRODUCT_BY_ID_REQUEST = 'GET_PRODUCT_BY_ID_REQUEST';
+export const getProductByIdRequest = createAction(GET_PRODUCT_BY_ID_REQUEST);
+
+export const GET_PRODUCT_BY_ID_SUCCESS = 'GET_PRODUCT_BY_ID_SUCCESS';
+export const getProductByIdSuccess = createAction(GET_PRODUCT_BY_ID_SUCCESS);
+
+export const GET_PRODUCT_BY_ID_FAILURE = 'GET_PRODUCT_BY_ID_FAILURE';
+export const getProductByIdFailure = createAction(GET_PRODUCT_BY_ID_FAILURE);
