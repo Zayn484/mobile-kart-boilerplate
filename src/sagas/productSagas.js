@@ -34,20 +34,21 @@ try {
 }
 }
 
-function* getProductById(action) {
+function* getProductById({ payload }) {
   try {
+
+    console.log('paykload received', payload);
+
     const payloadData = {
-      url: 'https://assignment-appstreet.herokuapp.com/api/v1/products/5aec58965a39460004b3f6dd',
+      url: `https://assignment-appstreet.herokuapp.com/api/v1/products/${payload}`,
     };
   
     yield put(getProductByIdRequest());
   
     const { data, status } = yield call(getRequest, payloadData);
   
-    if(status === 200) {
-      const { products } = data;
-  
-      yield put(getProductByIdSuccess(products));
+    if(status === 200) {  
+      yield put(getProductByIdSuccess(data));
     } else {
       yield put(getProductByIdFailure());
     }

@@ -6,13 +6,17 @@ import "./ProductDetail.css";
 
 class ProductDetail extends Component {
     componentDidMount() {
-     this.props.getProductById();
+      const { id } = this.props.match.params;
+
+     this.props.getProductById(id);
     }
 
   render() {
     const { product } = this.props.location.state;
 
-    const { id } = this.props.match.params;
+    const { isLoading, productDetailById } = this.props;
+
+    console.log('productDetailById', productDetailById);
 
     return (
       <div className="container product-detail-container">
@@ -53,6 +57,6 @@ class ProductDetail extends Component {
   }
 }
 
-const mapStateToProps = ({ product }) => ({ product})
+const mapStateToProps = ({ product: { isLoading, productDetailById } }) => ({ isLoading, productDetailById })
 
 export default connect(mapStateToProps, {getProductById } )(ProductDetail);
