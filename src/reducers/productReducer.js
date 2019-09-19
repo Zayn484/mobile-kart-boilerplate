@@ -1,22 +1,36 @@
-import { productAction } from '../actions';
+import { 
+         GET_PRODUCTS_REQUEST,
+         GET_PRODUCTS_SUCCESS,
+         GET_PRODUCTS_FAILURE   
+       } from '../actions/productAction';
 
 const initialState = {
-  payslips: [],
-  computePayslipRequestStatus: null,
+   isLoading: false,
+   productsList: []
 };
 
-const productReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case productAction.COMPUTE_PAYSLIP_REQUEST: {
-      return state;
+const productReducer = (state = initialState, { type, payload}) => {
+  switch (type) {
+    case GET_PRODUCTS_REQUEST: {
+      return {
+        ...state,
+        isLoading: true
+      };
     }
       
-    case productAction.COMPUTE_PAYSLIP_SUCCESS: {
-      return state;
+    case GET_PRODUCTS_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        productsList: payload
+      };
     }
     
-    case productAction.COMPUTE_PAYSLIP_RESET: {
-      return state;
+    case GET_PRODUCTS_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
     }
 
     default:
