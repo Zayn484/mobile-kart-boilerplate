@@ -6,6 +6,10 @@
   margin-top: 20px;
 }
 
+.card-img {
+  height: 12rem;
+}
+
 .card-body h3 {
   display: block;
   font-size: 1.17em;
@@ -26,12 +30,12 @@
 }
 
 .sales-msg {
-  font-size: .75em;
-    color: #2fada1;
+  font-size: 0.75em;
+  color: #2fada1;
 }
 
 .my-1 {
-  margin-top: 4px!important;
-  margin-bottom: 4px!important;
-  font-size: 1.00em;
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+  font-size: 1em;
 }
