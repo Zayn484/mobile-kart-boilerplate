@@ -14,6 +14,7 @@ class ProductList extends Component {
   render() {
     const { isLoading, productsList } = this.props;
     console.log(productsList);
+    console.log(window.screen.availWidth);
     return (
       <div className="container">
         <div className="row list-container ">
@@ -23,7 +24,12 @@ class ProductList extends Component {
             </div>
           ) : (
             productsList.map(d => (
-              <div key={d._id} className="col-10 col-md-3 mx-auto m-4">
+              <div
+                key={d._id}
+                className={`${
+                  window.screen.availWidth <= 768 ? `col-6` : `col-3`
+                }     mt-3`}
+              >
                 <div className="card">
                   <Link to={{ pathname: `/${d._id}`, state: { product: d } }}>
                     <img
