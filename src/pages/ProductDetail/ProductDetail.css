@@ -1,6 +1,6 @@
 .product-detail-container {
   box-shadow: 0 4px 8px #ccc;
-  height: 70vh;
+  height: 80vh;
 }
 
 .image-container {
@@ -10,10 +10,14 @@
 .image {
   border-radius: 40px;
   width: 70%;
-  height: 70%;
+  height: 50%;
   margin-left: 40px;
   margin-top: 30px;
   box-shadow: 0 4px 8px #ccc;
+}
+
+.description {
+  font-size: 0.9rem;
 }
 
 @media screen and (max-width: 960px) {
