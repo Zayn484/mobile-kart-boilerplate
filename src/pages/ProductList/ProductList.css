@@ -6,6 +6,32 @@
   margin-top: 20px;
 }
 
+.card-body h3 {
+  display: block;
+  font-size: 1.17em;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
 .card:hover {
   box-shadow: 0 4px 6px #ccc;
+}
+
+.mark-price {
+  text-decoration: line-through;
+  color: grey;
+}
+
+.sales-msg {
+  font-size: .75em;
+    color: #2fada1;
+}
+
+.my-1 {
+  margin-top: 4px!important;
+  margin-bottom: 4px!important;
+  font-size: 1.00em;
 }

@@ -2,20 +2,22 @@ import React from 'react';
 
 import './SideDrawer.css';
 
-const sideDrawer = props => {
-  let drawerClasses = 'side-drawer';
-  if (props.show) {
-    drawerClasses = 'side-drawer open';
-  }
+const sideDrawer = ({ show }) => {
   return (
-    <nav className={drawerClasses}>
+    <nav className={`side-drawer ${show && 'open'}`}>
       <ul>
-        <li>
-          <a href="/">Products</a>
-        </li>
-        <li>
-          <a href="/">Users</a>
-        </li>
+      <li>
+          <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/">About</a>
+          </li>
+          <li>
+            <a href="/">Contact Us</a>
+          </li>
+          <li>
+            <a href="/">Bag</a>
+          </li>
       </ul>
     </nav>
   );

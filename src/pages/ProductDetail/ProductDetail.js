@@ -5,7 +5,7 @@ import "./ProductDetail.css";
 const productDetail = ({ location }) => {
   const { product } = location.state;
   return (
-    <div className="container-fluid product-detail-container">
+    <div className="container product-detail-container">
       <div className="row">
         <div className="col-12 col-md-6 image-container">
           <img

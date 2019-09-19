@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import { connect } from 'react-redux';
+import { getProducts } from '../../actions/productAction';
 import "./ProductList.css";
 
 const data = [
@@ -78,25 +79,39 @@ const data = [
   }
 ];
 
-const productList = () => (
-  <div className="container ">
-    <div className="row list-container ">
-      {data.map(d => (
-        <div key={d.id} className="col-10 col-md-3 mx-auto m-4">
-          <div className="card">
-            <Link to={{ pathname: `/${d.id}`, state: { product: d } }}>
-              <img src={d.imageUrl} className="card-img-top" alt={d.title} />
-            </Link>
-            <div className="card-body">
-              <h3>{d.title}</h3>
-              <hr />
-              <strong>${d.price}</strong>
+class ProductList extends Component {
+  componentDidMount() {
+    // this.props.productsAction();
+    this.props.getProducts();
+  }
+
+  render() {
+    return (
+      <div className="container">
+      <div className="row list-container ">
+        {data.map(d => (
+          <div key={d.id} className="col-10 col-md-3 mx-auto m-4">
+            <div className="card">
+              <Link to={{ pathname: `/${d.id}`, state: { product: d } }}>
+                <img src={d.imageUrl} className="card-img-top" alt={d.title} />
+              </Link>
+              <div className="card-body">
+                <h3>Samsung Galaxy A8+ (1.5GB, Black)</h3>
+                <hr />
+                <p className="my-1"> 
+                   Rs 27000.00
+                <span className="mark-price">Rs. 30000</span>
+                <span className="sales-msg"> (10% Off) </span>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-);
+    )
+  }
+}
+ 
 
-export default productList;
+export default connect(null, { getProducts })(ProductList);

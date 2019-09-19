@@ -1,13 +1,8 @@
 import React, { Component } from "react";
-
 import { Switch, Route } from "react-router";
-
 import Toolbar from "./components/Toolbar/Toolbar";
 import SideDrawer from "./components/SideDrawer/SideDrawer";
 import Backdrop from "./components/Backdrop/Backdrop";
-
-import ProductList from "./pages/ProductList/ProductList";
-import ProductDetail from "./pages/ProductDetail/ProductDetail";
 
 class App extends Component {
   state = {
@@ -25,21 +20,17 @@ class App extends Component {
   };
 
   render() {
-    let backdrop;
+    const { sideDrawerOpen } = this.state;
 
-    if (this.state.sideDrawerOpen) {
-      backdrop = <Backdrop click={this.backdropClickHandler} />;
-    }
+    const { children } = this.props;
+
     return (
       <div style={{ height: "100%" }}>
         <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
         <SideDrawer show={this.state.sideDrawerOpen} />
-        {backdrop}
+        {sideDrawerOpen && <Backdrop click={this.backdropClickHandler} />}
         <main style={{ marginTop: "120px" }}>
-          <Switch>
-            <Route exact path="/" component={ProductList} />
-            <Route path="/:id" component={ProductDetail} />
-          </Switch>
+          {children}    
         </main>
       </div>
     );
