@@ -19,6 +19,8 @@ function* getProduct(action) {
       url: "https://assignment-appstreet.herokuapp.com/api/v1/products?page=1"
     };
 
+    yield put(getProductsRequest());
+  
     const { data, status } = yield call(getRequest, payloadData);
 
     if (status === 200) {
@@ -35,9 +37,6 @@ function* getProduct(action) {
 
 function* getProductById({ payload }) {
   try {
-
-    console.log('paykload received', payload);
-
     const payloadData = {
       url: `https://assignment-appstreet.herokuapp.com/api/v1/products/${payload}`,
     };

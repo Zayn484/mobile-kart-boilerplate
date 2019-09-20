@@ -2,84 +2,24 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { getProductById, updateProductFields } from "../../actions/productAction";
 import Button from "../../components/Button/Button";
+import Carousal from "../../components/Carousal";
+import Spinner from "../../components/Spinner/Spinner";
 import "./ProductDetail.css";
 
 class ProductDetail extends Component {
-  state = {
-    active: 1,
-    colorActive: 0
-  };
-
   componentDidMount() {
     const { id } = this.props.match.params;
 
     this.props.getProductById(id);
   }
 
-  handleClick = event => {
-    // accessible
-    event.target.style.color = "white";
-    event.target.style.backgroundColor = "#2C3E50";
-  };
-
-  toggleStorage = position => {
-    if (this.state.active === position) {
-      this.setState({ active: null });
-    } else {
-      this.setState({ active: position });
-    }
-  };
-
-  toggleColor = position => {
-    if (this.state.colorActive === position) {
-      this.setState({ colorActive: null });
-    } else {
-      this.setState({ colorActive: position });
-    }
-  };
-
-  changeStorgeColor = position => {
-    if (this.state.active === position) {
-      const style = {
-        color: "white",
-        backgroundColor: "#2C3E50"
-      };
-      return style;
-    }
-    return "";
-  };
-
-  changeSetColor = position => {
-    if (this.state.colorActive === position) {
-      const style = {
-        color: "white",
-        backgroundColor: "#2C3E50"
-      };
-      return style;
-    }
-    return "";
-  };
-
-
   handleAttrOptionClick = (filteredOptions,selectedOption, productAttrId, optionId) => {
-
-    console.log('option id', selectedOption, optionId);
-
     const { productDetailById  } = this.props;
 
-      const data = selectedOption.includes(optionId);
-
-      if(!data){
+      if(!selectedOption.includes(optionId)){
          const ids = filteredOptions.filter((item)=> item._id != optionId).map((item) => ( item._id));        
-
-          const updatedOption = selectedOption.filter(val => !ids.includes(val));
-
-         console.log('updatedOption', updatedOption, ids);
-
-         const updatedProductDetail = { ...productDetailById, selected_option_ids: [...updatedOption, optionId] }
-
-         console.log('filterd optipon', [...updatedOption, optionId]);
-         
+         const updatedOption = selectedOption.filter(val => !ids.includes(val));
+         const updatedProductDetail = { ...productDetailById, selected_option_ids: [...updatedOption, optionId] }         
          this.props.updateProductFields(updatedProductDetail);
       }
   
@@ -102,57 +42,70 @@ class ProductDetail extends Component {
       )})
   }
 
+  renderSelectedImages = (products, selectedOption) => {
+     
+  const data = products.filter((item) => item.sign.every( e => selectedOption.includes(e) ));
+
+  console.log('data images', data[0].images, selectedOption);
+
+    return (
+          <Carousal images={data[0].images} />      
+    )
+  }
+
   render() {
     const { product } = this.props.location.state;
 
     const { isLoading,
          productDetailById : {
-          attributes, primary_product , options, selected_option_ids
+          attributes, primary_product , options, selected_option_ids, product_variations
           }, productDetailById }  = this.props;
 
-    console.log("productDetailById", productDetailById);
-
+  if(isLoading) {
     return (
-      <div className="container product-detail-container">
-        <div className="row">
-          <div className="col-12 col-md-6 image-container">
-            <img
-              src={product.images[0]}
-              className="img-fluid image"
-              alt={product.name}
-            />
+            <div className="text-center mx-auto">
+              <Spinner />
+            </div>
+      )    
+    } else {
+      return (
+        <div className="container product-detail-container">
+           {!!Object.keys(productDetailById).length && <div className="row">
+            <div className="col-12 col-md-6 image-container">
+              {this.renderSelectedImages(product_variations, selected_option_ids)}
+            </div>
+             <div className="col-12 col-md-6 mt-2 mb-5">
+              <h6 className="font-weight-bold text-uppercase">{product.name}</h6>
+              <p className="description">
+                  {primary_product.desc}
+               </p> 
+              <hr />
+              <strong> Rs. {primary_product.sale_price}</strong>
+              &nbsp;&nbsp;&nbsp; <strike>Rs. {primary_product.mark_price}</strike> <br />
+              <small className="sales-msg">You save Rs. { parseFloat(primary_product.mark_price)  - parseFloat(primary_product.sale_price)} {primary_product.sale_msg}</small>
+              <br />
+              <small>*Local taxes included (whenever applicable)</small>
+              <hr />
+               {!!attributes.length && 
+                   attributes.map((item, key) => {
+                    return (
+                       <Fragment >
+                        <small keys={key} className="font-weight-bold">{item.name.toUpperCase()}</small>
+                        <span className="d-flex">
+                          {this.renderProductAttrOptions(item._id, options, selected_option_ids)}                      
+                        </span>
+                         </Fragment>
+                    )
+                  })
+                }
+              <hr />
+              <button className="btn border button">Add to Cart</button>
+            </div>
           </div>
-          {!!Object.keys(productDetailById).length && <div className="col-12 col-md-6 mt-2 mb-5">
-            <h6 className="font-weight-bold text-uppercase">{product.name}</h6>
-            <p className="description">
-                {primary_product.desc}
-             </p> 
-            <hr />
-            <strong> Rs. {primary_product.sale_price}</strong>
-            &nbsp;&nbsp;&nbsp; <strike>Rs. {primary_product.mark_price}</strike> <br />
-            <small className="sales-msg">You save Rs. { parseFloat(primary_product.mark_price)  - parseFloat(primary_product.sale_price)} {primary_product.sale_msg}</small>
-            <br />
-            <small>*Local taxes included (whenever applicable)</small>
-            <hr />
-             {!!attributes.length && 
-                 attributes.map((item, key) => {
-                  return (
-                     <Fragment >
-                      <small keys={key} className="font-weight-bold">{item.name.toUpperCase()}</small>
-                      <span className="d-flex">
-                        {this.renderProductAttrOptions(item._id, options, selected_option_ids)}                      
-                      </span>
-                       </Fragment>
-                  )
-                })
-              }
-            <hr />
-            <button className="btn border button">Add to Cart</button>
-          </div>
-          }
+           }
         </div>
-      </div>
-    );
+      )
+    }
   }
 } 
 

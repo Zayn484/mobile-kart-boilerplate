@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getProducts } from "../../actions/productAction";
-import "./ProductList.css";
-
 import Spinner from "../../components/Spinner/Spinner";
+import "./ProductList.css";
 
 class ProductList extends Component {
   componentDidMount() {
@@ -13,8 +12,9 @@ class ProductList extends Component {
 
   render() {
     const { isLoading, productsList } = this.props;
+
     console.log(productsList);
-    console.log(window.screen.availWidth);
+
     return (
       <div className="container">
         <div className="row list-container ">
@@ -26,9 +26,9 @@ class ProductList extends Component {
             productsList.map(d => (
               <div
                 key={d._id}
-                className={`col-10 col-md-5 col-lg-3`}
+                className={`col-10 col-md-5 col-lg-3 m10`}
               >
-                <div className="card">
+                <div className="card with-margin">
                   <Link to={{ pathname: `/${d._id}`, state: { product: d } }}>
                     <img
                       src={d.images[0]}

@@ -56,7 +56,8 @@ const productReducer = (state = initialState, { type, payload}) => {
       return {
         ...state,
         isLoading: false,
-        productDetailById: payload
+        productDetailById: payload,
+        isLoading: false
       };
     }
     
