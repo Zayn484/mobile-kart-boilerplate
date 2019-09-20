@@ -15,8 +15,12 @@
   margin-top: 30px;
   box-shadow: 0 4px 8px #ccc;
 }
-.carousal{
-  height: .2 rem;
+.carousal {
+  margin-top: 12%;
+}
+
+.carousal-image {
+  height: 30rem;
 }
 
 .description {
