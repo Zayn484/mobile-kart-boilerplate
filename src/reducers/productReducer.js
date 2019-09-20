@@ -4,7 +4,8 @@ import {
          GET_PRODUCTS_FAILURE,
          GET_PRODUCT_BY_ID_REQUEST,
          GET_PRODUCT_BY_ID_SUCCESS,
-         GET_PRODUCT_BY_ID_FAILURE   
+         GET_PRODUCT_BY_ID_FAILURE,
+         UPDATE_PRODUCT_FIELDS   
        } from '../actions/productAction';
 
 const initialState = {
@@ -15,6 +16,13 @@ const initialState = {
 
 const productReducer = (state = initialState, { type, payload}) => {
   switch (type) {
+    case UPDATE_PRODUCT_FIELDS: {
+     return {
+       ...state,
+       productDetailById: payload
+      }
+    }
+
     case GET_PRODUCTS_REQUEST: {
       return {
         ...state,

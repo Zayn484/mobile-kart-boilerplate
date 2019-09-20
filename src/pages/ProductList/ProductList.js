@@ -26,9 +26,7 @@ class ProductList extends Component {
             productsList.map(d => (
               <div
                 key={d._id}
-                className={`${
-                  window.screen.availWidth <= 768 ? `col-6` : `col-3`
-                }     mt-3`}
+                className={`col-10 col-md-5 col-lg-3`}
               >
                 <div className="card">
                   <Link to={{ pathname: `/${d._id}`, state: { product: d } }}>

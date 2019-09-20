@@ -1,6 +1,6 @@
 .product-detail-container {
   box-shadow: 0 4px 8px #ccc;
-  height: 80vh;
+  height: auto;
 }
 
 .image-container {

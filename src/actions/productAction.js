@@ -38,3 +38,6 @@ export const getProductByIdSuccess = createAction(GET_PRODUCT_BY_ID_SUCCESS);
 
 export const GET_PRODUCT_BY_ID_FAILURE = 'GET_PRODUCT_BY_ID_FAILURE';
 export const getProductByIdFailure = createAction(GET_PRODUCT_BY_ID_FAILURE);
+
+export const UPDATE_PRODUCT_FIELDS = 'UPDATE_PRODUCT_FIELDS';
+export const updateProductFields = createAction(UPDATE_PRODUCT_FIELDS);

@@ -1,9 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { getProductById } from "../../actions/productAction";
-import "./ProductDetail.css";
-
+import { getProductById, updateProductFields } from "../../actions/productAction";
 import Button from "../../components/Button/Button";
+import "./ProductDetail.css";
 
 class ProductDetail extends Component {
   state = {
@@ -61,10 +60,55 @@ class ProductDetail extends Component {
     return "";
   };
 
+
+  handleAttrOptionClick = (filteredOptions,selectedOption, productAttrId, optionId) => {
+
+    console.log('option id', selectedOption, optionId);
+
+    const { productDetailById  } = this.props;
+
+      const data = selectedOption.includes(optionId);
+
+      if(!data){
+         const ids = filteredOptions.filter((item)=> item._id != optionId).map((item) => ( item._id));        
+
+          const updatedOption = selectedOption.filter(val => !ids.includes(val));
+
+         console.log('updatedOption', updatedOption, ids);
+
+         const updatedProductDetail = { ...productDetailById, selected_option_ids: [...updatedOption, optionId] }
+
+         console.log('filterd optipon', [...updatedOption, optionId]);
+         
+         this.props.updateProductFields(updatedProductDetail);
+      }
+  
+      return true;
+  }
+
+  renderProductAttrOptions = (productAttrId, data, selectedOption) => {
+     const filteredOptions = data.filter((item) => item.attrib_id == productAttrId);
+
+     return  filteredOptions.map((item, key) => {
+        return (
+        <Fragment>
+          <Button
+            keys={key}
+            content={item.name}
+            changeColor={selectedOption.includes(item._id)}
+            handleToggle={() => this.handleAttrOptionClick(filteredOptions,selectedOption, productAttrId, item._id)}
+          />
+      </Fragment>
+      )})
+  }
+
   render() {
     const { product } = this.props.location.state;
 
-    const { isLoading, productDetailById } = this.props;
+    const { isLoading,
+         productDetailById : {
+          attributes, primary_product , options, selected_option_ids
+          }, productDetailById }  = this.props;
 
     console.log("productDetailById", productDetailById);
 
@@ -78,58 +122,39 @@ class ProductDetail extends Component {
               alt={product.name}
             />
           </div>
-          <div className="col-12 col-md-6 mt-2 mb-5">
+          {!!Object.keys(productDetailById).length && <div className="col-12 col-md-6 mt-2 mb-5">
             <h6 className="font-weight-bold text-uppercase">{product.name}</h6>
             <p className="description">
-              Resplendent in metal and glass, it’s thoughtfully designed to fit
-              comfortably in your hands. A work of art, you won’t want to put
-              down.Lose yourself to an expansive view on the Galaxy A8+ with the
-              Infinity Display. Its 15.36 cm (6.0”) large display makes any
-              view, simply captivating. And the 18.5 : 9 screen ratio provides a
-              stunning cinematic experience that’s truly immersive.
-            </p>
+                {primary_product.desc}
+             </p> 
             <hr />
-            <strong> Rs. {product.sale_price}</strong>
-            &nbsp;&nbsp;&nbsp; <strike>Rs. {product.mark_price}</strike> <br />
-            <small className="sales-msg">You save Rs. 3000 (10% off)</small>
+            <strong> Rs. {primary_product.sale_price}</strong>
+            &nbsp;&nbsp;&nbsp; <strike>Rs. {primary_product.mark_price}</strike> <br />
+            <small className="sales-msg">You save Rs. { parseFloat(primary_product.mark_price)  - parseFloat(primary_product.sale_price)} {primary_product.sale_msg}</small>
             <br />
             <small>*Local taxes included (whenever applicable)</small>
             <hr />
-            <small className="font-weight-bold">STORAGE</small>
-            <span className="d-flex">
-              <Button
-                content={"1.5GB"}
-                changeColor={this.changeStorgeColor(0)}
-                handleToggle={() => this.toggleStorage(0)}
-              />
-              <Button
-                content={"2GB"}
-                changeColor={this.changeStorgeColor(1)}
-                handleToggle={() => this.toggleStorage(1)}
-              />
-            </span>
-            <hr />
-            <small className="font-weight-bold">COLORS</small>
-            <span className="d-flex">
-              <Button
-                content={"BLACK"}
-                changeColor={this.changeSetColor(0)}
-                handleToggle={() => this.toggleColor(0)}
-              />
-              <Button
-                content={"GOLD"}
-                changeColor={this.changeSetColor(1)}
-                handleToggle={() => this.toggleColor(1)}
-              />
-            </span>
+             {!!attributes.length && 
+                 attributes.map((item, key) => {
+                  return (
+                     <Fragment >
+                      <small keys={key} className="font-weight-bold">{item.name.toUpperCase()}</small>
+                      <span className="d-flex">
+                        {this.renderProductAttrOptions(item._id, options, selected_option_ids)}                      
+                      </span>
+                       </Fragment>
+                  )
+                })
+              }
             <hr />
             <button className="btn border button">Add to Cart</button>
           </div>
+          }
         </div>
       </div>
     );
   }
-}
+} 
 
 const mapStateToProps = ({ product: { isLoading, productDetailById } }) => ({
   isLoading,
@@ -138,5 +163,5 @@ const mapStateToProps = ({ product: { isLoading, productDetailById } }) => ({
 
 export default connect(
   mapStateToProps,
-  { getProductById }
+  { getProductById, updateProductFields }
 )(ProductDetail);
