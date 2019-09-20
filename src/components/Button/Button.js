@@ -1,15 +1,10 @@
 import React from "react";
 
-const updatedStyle = {
-  color: "white",
-  backgroundColor: "#2C3E50"
-};
-
-const button = ({ index, content, changeColor, handleToggle }) => (
+const button = ({ index, content, color, handleClick }) => (
   <button
     className="btn border m-2"
-    style={changeColor ? updatedStyle : null }
-    onClick={() => handleToggle(index)}
+    style={color}
+    onClick={handleClick}
   >
     {content}
   </button>

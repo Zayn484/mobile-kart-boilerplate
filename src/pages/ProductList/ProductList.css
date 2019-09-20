@@ -2,6 +2,7 @@
   cursor: pointer;
   box-shadow: 0 2px 4px #ccc;
   margin-bottom: 20px;
+  /* height: 30rem; */
 }
 
 .list-container {
@@ -40,4 +41,8 @@
   margin-top: 4px !important;
   margin-bottom: 4px !important;
   font-size: 1em;
+}
+
+.button {
+  text-align: center;
 }

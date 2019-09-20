@@ -1,4 +1,4 @@
-import { call, takeLatest, put } from "redux-saga/effects";
+import { call, takeLatest, put, select } from "redux-saga/effects";
 import {
   GET_PRODUCTS,
   getProductsRequest,
@@ -7,26 +7,38 @@ import {
   GET_PRODUCT_BY_ID,
   getProductByIdRequest,
   getProductByIdSuccess,
-  getProductByIdFailure
+  getProductByIdFailure,
+  clearProductList
 } from "../actions/productAction";
 import HttpHelper from "../utils/httpHelper";
+import { BASE_URL } from '../config';
 
 const { getRequest } = new HttpHelper();
 
-function* getProduct(action) {
+function* getProduct({payload}) {
   try {
+    const { pageNo } = payload;
+
+    const productListState = (state) => state.product.productsList;
+
+    const getProductList = yield select(productListState);
+
+    if(pageNo ==1 && !!getProductList.length) {
+      yield put(clearProductList());
+    }
+
     const payloadData = {
-      url: "https://assignment-appstreet.herokuapp.com/api/v1/products?page=1"
+      url: `${BASE_URL}?page=${pageNo}`
     };
 
     yield put(getProductsRequest());
   
     const { data, status } = yield call(getRequest, payloadData);
-
+    
     if (status === 200) {
       const { products } = data;
-
-      yield put(getProductsSuccess(products));
+      
+      yield put(getProductsSuccess(data));
     } else {
       yield put(getProductsFailure());
     }
@@ -38,7 +50,7 @@ function* getProduct(action) {
 function* getProductById({ payload }) {
   try {
     const payloadData = {
-      url: `https://assignment-appstreet.herokuapp.com/api/v1/products/${payload}`,
+      url: `${BASE_URL}/${payload}`,
     };
 
     yield put(getProductByIdRequest());

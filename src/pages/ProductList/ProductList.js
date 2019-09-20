@@ -1,29 +1,52 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getProducts } from "../../actions/productAction";
+import Button from "../../components/Button/Button";
 import Spinner from "../../components/Spinner/Spinner";
 import "./ProductList.css";
 
 class ProductList extends Component {
+  state = { pageNo: 0, showButtonLoader: false };
+
   componentDidMount() {
-    this.props.getProducts();
+    this.props.getProducts({ pageNo: 1});
+
+    this.setState({ pageNo: 1});
+  }
+
+  componentDidUpdate(prevProps) {
+    const { productsList: prevPropsProductsList } = prevProps;
+    const { productsList } = this.props;
+
+    if(!!productsList.length && productsList.length !== prevPropsProductsList.length) {
+        this.setState({ showButtonLoader: false});
+    }
+  } 
+
+  handleLoadMore = () => {
+    const { pageNo } = this.state;
+
+    this.props.getProducts({ pageNo: pageNo + 1});
+
+    this.setState({ pageNo: pageNo + 1, showButtonLoader: true});
   }
 
   render() {
-    const { isLoading, productsList } = this.props;
+    const { isLoading, productsList, currentProductList } = this.props;
 
-    console.log(productsList);
+    if(isLoading && !productsList.length) {
+     return  (
+     <div className="text-center mx-auto">
+        <Spinner />
+      </div>)
+    }
 
     return (
-      <div className="container">
+      <div className="container mx-auto text-center">
         <div className="row list-container ">
-          {isLoading ? (
-            <div className="text-center mx-auto">
-              <Spinner />
-            </div>
-          ) : (
-            productsList.map(d => (
+            <Fragment>
+            {productsList.map(d => (
               <div
                 key={d._id}
                 className={`col-10 col-md-5 col-lg-3 m10`}
@@ -48,17 +71,26 @@ class ProductList extends Component {
                   </div>
                 </div>
               </div>
-            ))
-          )}
+            ))}
+            </Fragment>
         </div>
+         {!!currentProductList.length ? 
+         <button
+            className="btn border m-2 button"
+              // changeColor={selectedOption.includes(item._id)}
+              onClick={this.handleLoadMore}
+          >
+            {this.state.showButtonLoader ? <Spinner />: 'Load More'} 
+          </button> : 'Thats it ..!!!' }
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ product: { isLoading, productsList } }) => ({
+const mapStateToProps = ({ product: { isLoading, productsList, currentProductList } }) => ({
   isLoading,
-  productsList
+  productsList,
+  currentProductList
 });
 
 export default connect(
