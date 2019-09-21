@@ -25,11 +25,11 @@ class App extends Component {
     const { children } = this.props;
 
     return (
-      <div style={{ height: "100%" }}>
+      <div className="app-container">
         <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
         <SideDrawer show={this.state.sideDrawerOpen} />
         {sideDrawerOpen && <Backdrop click={this.backdropClickHandler} />}
-        <main style={{ marginTop: "120px" }}>
+        <main className="margin-top">
           {children}    
         </main>
       </div>

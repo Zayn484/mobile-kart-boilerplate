@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getProducts } from "../../actions/productAction";
@@ -35,6 +35,10 @@ class ProductList extends Component {
     this.setState({ pageNo: pageNo + 1, showButtonLoader: true });
   };
 
+  handleCartClick = (id) => {
+    this.props.history.push(`/products/${id}`);
+  }
+
   render() {
     const { isLoading, productsList, currentProductList } = this.props;
 
@@ -48,18 +52,15 @@ class ProductList extends Component {
 
     return (
       <div className="container mx-auto text-center">
-        <div className="row list-container ">
-          <Fragment>
+        <div className="row list-container">
             {productsList.map(d => (
-              <div key={d._id} className={`col-10 col-md-5 col-lg-3 m10`}>
+              <div key={d._id} className={`col-12 col-md-5 col-lg-3 m10`} onClick={() =>  this.handleCartClick(d._id)}>
                 <div className="card with-margin">
-                  <Link to={{ pathname: `/${d._id}`, state: { product: d } }}>
                     <img
                       src={d.images[0]}
                       className="card-img-top card-img"
                       alt={d.name}
                     />
-                  </Link>
                   <div className="card-body">
                     <h3>{d.name}</h3>
                     <hr />
@@ -75,7 +76,6 @@ class ProductList extends Component {
                 </div>
               </div>
             ))}
-          </Fragment>
         </div>
         {!!currentProductList.length ? (
           <button
