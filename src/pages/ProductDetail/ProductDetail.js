@@ -44,11 +44,10 @@ class ProductDetail extends Component {
       item => item.attrib_id == productAttrId
     );
 
-    return filteredOptions.map((item, key) => {
+    return filteredOptions.map((item) => {
       return (
         <Fragment>
           <Button
-            keys={key}
             content={item.name}
             color={
               selectedOption.includes(item._id)
@@ -104,71 +103,69 @@ class ProductDetail extends Component {
           <Spinner />
         </div>
       );
+    } else {
+      return (
+        <div className="container product-detail-container">
+          {!!Object.keys(selectedProductAttr).length && (
+            <div className="row h-100">
+              <div className="col-12 col-md-6 image-container mx-auto align-center text-center ">
+                {this.renderSelectedImages(
+                  product_variations,
+                  selected_option_ids
+                )}
+              </div>
+              <div className="col-12 col-md-6 mt-2 mb-5">
+                <h6 className="font-weight-bold text-uppercase">
+                  {selectedProductAttr.name}
+                </h6>
+                <p className="description">{primary_product.desc}</p>
+                <hr />
+                <strong>
+                  Rs. {parseFloat(selectedProductAttr.sale_price).toFixed(2)}
+                </strong>
+                &nbsp;&nbsp;&nbsp;
+                <Fragment>
+                  <strike>
+                    Rs. {parseFloat(selectedProductAttr.mark_price).toFixed(2)}
+                  </strike>
+                  <br />
+                  <small className="sales-msg">
+                    You save Rs.
+                    {parseFloat(
+                      selectedProductAttr.mark_price -
+                        selectedProductAttr.sale_price
+                    ).toFixed(2)}
+                    {selectedProductAttr.sale_msg}
+                  </small>
+                  <br />
+                </Fragment>
+                <small>*Local taxes included (whenever applicable)</small>
+                <hr />
+                {!!attributes.length &&
+                  attributes.map((item, key) => {
+                    return (
+                      <Fragment>
+                        <small keys={key} className="font-weight-bold">
+                          {item.name.toUpperCase()}
+                        </small>
+                        <span className="d-flex">
+                          {this.renderProductAttrOptions(
+                            item._id,
+                            options,
+                            selected_option_ids
+                          )}
+                        </span>
+                      </Fragment>
+                    );
+                  })}
+                <hr />
+                <button className="btn border button">Add to Cart</button>
+              </div>
+            </div>
+          )}
+        </div>
+      );
     }
-
-    console.log("selectedProductAttr", selectedProductAttr);
-    return (
-      <div className="container product-detail-container">
-        {!!Object.keys(selectedProductAttr).length && (
-          <div className="row h-100">
-            <div className="col-12 col-md-6 image-container mx-auto align-center text-center ">
-              {this.renderSelectedImages(
-                product_variations,
-                selected_option_ids
-              )}
-            </div>
-            <div className="col-12 col-md-6 mt-2 mb-5">
-              <h6 className="font-weight-bold text-uppercase">
-                {selectedProductAttr.name}
-              </h6>
-              <p className="description">{primary_product.desc}</p>
-              <hr />
-              <strong>
-                {" "}
-                Rs. {parseFloat(selectedProductAttr.sale_price).toFixed(2)}
-              </strong>
-              &nbsp;&nbsp;&nbsp;
-              <Fragment>
-                <strike>
-                  Rs. {parseFloat(selectedProductAttr.mark_price).toFixed(2)}
-                </strike>{" "}
-                <br />
-                <small className="sales-msg">
-                  You save Rs.{" "}
-                  {parseFloat(
-                    selectedProductAttr.mark_price -
-                      selectedProductAttr.sale_price
-                  ).toFixed(2)}{" "}
-                  {selectedProductAttr.sale_msg}
-                </small>
-                <br />
-              </Fragment>
-              <small>*Local taxes included (whenever applicable)</small>
-              <hr />
-              {!!attributes.length &&
-                attributes.map((item, key) => {
-                  return (
-                    <Fragment>
-                      <small keys={key} className="font-weight-bold">
-                        {item.name.toUpperCase()}
-                      </small>
-                      <span className="d-flex">
-                        {this.renderProductAttrOptions(
-                          item._id,
-                          options,
-                          selected_option_ids
-                        )}
-                      </span>
-                    </Fragment>
-                  );
-                })}
-              <hr />
-              <button className="btn border button">Add to Cart</button>
-            </div>
-          </div>
-        )}
-      </div>
-    );
   }
 }
 

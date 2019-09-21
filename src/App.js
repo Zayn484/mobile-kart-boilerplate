@@ -29,7 +29,7 @@ class App extends Component {
         <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
         <SideDrawer show={this.state.sideDrawerOpen} />
         {sideDrawerOpen && <Backdrop click={this.backdropClickHandler} />}
-        <main className="margin-top">
+        <main style={{ marginTop: '120px'}}>
           {children}    
         </main>
       </div>

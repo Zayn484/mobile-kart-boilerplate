@@ -42,11 +42,14 @@ class ProductList extends Component {
   render() {
     const { isLoading, productsList, currentProductList } = this.props;
 
-    if (isLoading && !productsList.length) {
+    if (isLoading) {
+
+      console.log('loader here', isLoading);
+      
       return (
         <div className="text-center mx-auto">
           <Spinner />
-        </div>
+         </div>
       );
     }
 

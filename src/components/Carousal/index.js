@@ -10,9 +10,9 @@ const Carousal = ({ images }) => {
       showArrows={false}
       dynamicHeight={false}
       showThumbs={false}
-    >
-      {images.map(item => (
-        <img className="carousal-image" src={item} />
+    >   
+      {images.map((item, key) => (
+        <img key={key} className="carousal-image" src={item} />
       ))}
     </Carousel>
   );
